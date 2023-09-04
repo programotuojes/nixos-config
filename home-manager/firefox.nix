@@ -116,7 +116,7 @@
                 search.engines = engines;
                 search.force = true;
             };
-            "Bentley" = {
+            "Work" = {
                 id = 1;
                 extensions = extensions;
                 settings = settings // { "signon.rememberSignons" = true; };
@@ -128,21 +128,21 @@
     };
 
     xdg.desktopEntries = {
-        "firefox-bentley" = {
-            name = "Firefox (Bentley)";
+        "firefox-work" = {
+            name = "Firefox (Work)";
             genericName = "Web Browser";
-            exec = "firefox -P Bentley --class=firefox-bentley %U";
+            exec = "firefox -P Work --class=firefox-work %U";
             icon = "firefox";
             startupNotify = true;
             categories = [ "Network" "WebBrowser" ];
-            settings.StartupWMClass = "firefox-bentley";
+            settings.StartupWMClass = "firefox-work";
             actions = {
                 new-window = {
-                    exec = "firefox -P Bentley --new-window --class=firefox-bentley %U";
+                    exec = "firefox -P Work --new-window --class=firefox-work %U";
                     name = "New Window";
                 };
                 new-private-window = {
-                    exec = "firefox -P Bentley --private-window --class=firefox-bentley %U";
+                    exec = "firefox -P Work --private-window --class=firefox-work %U";
                     name = "New Private Window";
                 };
             };
