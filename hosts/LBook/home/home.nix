@@ -1,4 +1,4 @@
-{ pkgs, firefox-addons, ... }:
+{ pkgs, pkgs-unstable, firefox-addons, ... }:
 
 {
   imports = [
@@ -56,6 +56,41 @@
       set completion-ignore-case on
     '';
   };
+
+  home.packages = with pkgs; [
+    anki
+    appimage-run
+    burpsuite
+    deluge
+    discord
+    gimp
+    git-crypt
+    jdk
+    jellyfin-media-player
+    jq
+    kate
+    libreoffice
+    libsForQt5.yakuake
+    nextcloud-client
+    nixpkgs-fmt
+    nvd
+    openfortivpn
+    parallel
+    pkgs-unstable.insomnia
+    pkgs-unstable.obsidian
+    spotify
+    sqlitebrowser
+    telegram-desktop
+    vlc
+    wl-clipboard
+    zoxide
+
+    # Neovim stuff
+    cargo
+    gcc
+    ripgrep
+    unzip
+  ];
 
   programs.firefox = {
     enable = true;

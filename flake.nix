@@ -28,14 +28,12 @@
       in
       {
         severas = nixpkgs.lib.nixosSystem {
-          system = system;
-          specialArgs = specialArgs;
+          inherit system specialArgs;
           modules = [ ./hosts/severas ];
         };
 
         LBook = nixpkgs.lib.nixosSystem {
-          system = system;
-          specialArgs = specialArgs;
+          inherit system specialArgs;
           modules = [
             ./hosts/LBook/configuration.nix
             inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime

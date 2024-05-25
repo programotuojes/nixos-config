@@ -55,42 +55,6 @@
     isNormalUser = true;
     description = "Gustas";
     extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" ];
-    packages = with pkgs; [
-      anki
-      appimage-run
-      burpsuite
-      deluge
-      discord
-      gimp
-      git-crypt
-      jdk
-      jellyfin-media-player
-      jq
-      kate
-      libreoffice
-      libsForQt5.yakuake
-      nerdfonts
-      nextcloud-client
-      nixpkgs-fmt
-      nvd
-      openfortivpn
-      parallel
-      pkgs-unstable.insomnia
-      pkgs-unstable.obsidian
-      spotify
-      sqlitebrowser
-      telegram-desktop
-      tmux
-      vlc
-      wl-clipboard
-      zoxide
-
-      # Neovim stuff
-      cargo
-      gcc
-      ripgrep
-      unzip
-    ];
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -103,32 +67,34 @@
     wget
   ];
 
-  fonts.packages = with pkgs; [
-    jetbrains-mono
-    ipafont
-  ];
+  fonts = {
+    packages = with pkgs; [
+      (nerdfonts.override { fonts = [ "JetBrainsMono" "Noto" ]; })
+      ipafont
+    ];
 
-  fonts.fontconfig = {
-    allowBitmaps = false;
+    fontconfig = {
+      allowBitmaps = false;
 
-    antialias = true;
-    hinting.enable = true;
-    hinting.style = "slight";
-    subpixel.rgba = "rgb";
+      antialias = true;
+      hinting.enable = true;
+      hinting.style = "slight";
+      subpixel.rgba = "rgb";
 
-    defaultFonts = {
-      monospace = [
-        "JetBrains Mono"
-        "IPAGothic"
-      ];
-      sansSerif = [
-        "Noto Sans"
-        "IPAPGothic"
-      ];
-      serif = [
-        "Noto Serif"
-        "IPAPMincho"
-      ];
+      defaultFonts = {
+        monospace = [
+          "JetBrainsMono Nerd Font"
+          "IPAGothic"
+        ];
+        sansSerif = [
+          "NotoSans Nerd Font"
+          "IPAPGothic"
+        ];
+        serif = [
+          "NotoSerif Nerd Font"
+          "IPAPMincho"
+        ];
+      };
     };
   };
 
