@@ -29,7 +29,10 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = false;
+  };
 
   users.users.root.openssh.authorizedKeys.keys = [ hidden.lbook_ssh_key ];
 
