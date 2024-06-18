@@ -20,7 +20,7 @@
     matchBlocks = {
       "ssh.dev.azure.com".identityFile = "~/.ssh/azure-devops";
       "github.com".identityFile = "~/.ssh/github";
-      "severas" = {
+      "klevas.org" = {
         identityFile = "~/.ssh/severas";
         user = "root";
       };
