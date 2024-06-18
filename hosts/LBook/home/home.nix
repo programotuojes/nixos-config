@@ -32,20 +32,22 @@
     extraConfig.init.defaultBranch = "main";
     aliases.sw = "switch";
     includes =
-      let
-        contents.user = {
-          email = "programotuojes@users.noreply.github.com";
-          name = "Gustas Klevinskas";
-        };
-      in
       [
         {
-          condition = "gitdir:~/projects/";
-          contents = contents;
+          condition = "gitdir:~/";
+          contents.user = {
+            email = "programotuojes@users.noreply.github.com";
+            name = "Gustas Klevinskas";
+          };
         }
         {
-          condition = "gitdir:~/.config/";
-          contents = contents;
+          condition = "gitdir:~/bentley/";
+          contents = {
+            user = {
+              email = "gustas.klevinskas@bentley.com";
+              name = "Gustas Klevinskas";
+            };
+          };
         }
       ];
   };

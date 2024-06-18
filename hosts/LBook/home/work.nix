@@ -1,18 +1,6 @@
 { pkgs, pkgs-unstable, ... }:
 
 {
-  programs.git.includes = [
-    {
-      condition = "gitdir:~/bentley/";
-      contents = {
-        user = {
-          email = "gustas.klevinskas@bentley.com";
-          name = "Gustas Klevinskas";
-        };
-      };
-    }
-  ];
-
   home.file."artifacts-credprovider" = {
     target = ".nuget/plugins/netcore/CredentialProvider.Microsoft/";
     recursive = true;
