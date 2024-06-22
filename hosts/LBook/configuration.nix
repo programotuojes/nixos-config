@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -25,13 +25,12 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   services.xserver.enable = true;
-  services.xserver.layout = "us";
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.displayManager.sddm = {
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
     autoNumlock = true;
-    settings.Autologin.Session = "plasmawayland.desktop";
+    settings.Autologin.Session = "plasma.desktop";
     settings.Autologin.User = "gustas";
   };
 
