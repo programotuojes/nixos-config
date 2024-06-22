@@ -15,6 +15,13 @@
     ip = "ip --color=auto";
   };
 
+  programs.bash = {
+    enable = true;
+    bashrcExtra = ''
+      eval "$(zoxide init bash)"
+    '';
+  };
+
   programs.ssh = {
     enable = true;
     matchBlocks = {
