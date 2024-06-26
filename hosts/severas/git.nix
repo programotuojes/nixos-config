@@ -12,7 +12,7 @@
       # Vilius
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAkqnik4bo2t3eVaQtaAaPHLBjVv53nrUYf7B15W3B6u r5800x3d@DESKTOP-V85LMH7"
       # Saulius
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAYn8UTA0jhrwOezoVHJAgO6FLNvzuIrczAMumUkgSJh thecheesy0ne@sauliusOMEN"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMcDzSYVzocEOCpUiDIagqXVHcM1/eisUdGT9PPw1Ke0 thecheesy0ne@sauliusOMEN"
       # Pijus
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIINDxCOg2z/PD9dMOXd5Leos+jDK48c5I7bwAIXISXju" 
     ];
