@@ -3,7 +3,7 @@
 {
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud28;
+    package = pkgs.nextcloud29;
 
     hostName = hidden.nextcloud_domain;
     https = true;
@@ -11,7 +11,6 @@
     home = "/pool/nextcloud";
 
     maxUploadSize = "10G";
-    logType = "file";
 
     configureRedis = true;
     database.createLocally = true;
@@ -19,13 +18,14 @@
     config = {
       adminpassFile = "/var/keys/nextcloud-admin";
       dbtype = "pgsql";
-      defaultPhoneRegion = "LT";
     };
 
-    extraOptions = {
+    settings = {
       "memories.exiftool" = "${lib.getExe pkgs.exiftool}";
       "memories.vod.ffmpeg" = "${pkgs.ffmpeg-headless}/bin/ffmpeg";
       "memories.vod.ffprobe" = "${pkgs.ffmpeg-headless}/bin/ffprobe";
+      default_phone_region = "LT";
+      log_type = "file";
       preview_ffmpeg_path = "${pkgs.ffmpeg-headless}/bin/ffmpeg";
     };
   };

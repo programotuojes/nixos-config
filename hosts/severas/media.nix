@@ -1,4 +1,4 @@
-{ config, pkgs, lib, pkgs-unstable, ... }:
+{ config, pkgs, ... }:
 
 {
   networking.firewall.allowedTCPPorts = [
@@ -61,27 +61,13 @@
 
   boot.kernelParams = [ "i915.enable_guc=3" ];
 
-  nixpkgs.config.packageOverrides = prev: {
-    ffmpeg_6 = prev.ffmpeg_6.overrideAttrs (old: rec {
-      configureFlags =
-        # Remove deprecated Intel Media SDK support
-        (builtins.filter (e: e != "--enable-libmfx") old.configureFlags)
-        # Add Intel VPL support
-        ++ [ "--enable-libvpl" ];
-      buildInputs = old.buildInputs ++ [
-        # VPL dispatcher
-        pkgs-unstable.libvpl
-      ];
-    });
-  };
-
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
-      (pkgs.callPackage ../../pkgs/onevpl-intel-gpu.nix { })
-      intel-media-driver
       intel-compute-runtime
+      intel-media-driver
       intel-ocl
+      onevpl-intel-gpu
     ];
   };
 }
