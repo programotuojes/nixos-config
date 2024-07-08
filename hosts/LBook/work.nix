@@ -4,6 +4,10 @@ let
   minikube-interface = "minikube";
 in
 {
+  security.pki.certificates = [
+    hidden.work.cert
+  ];
+
   networking.hosts."192.168.49.2" = [
     "local"
     "influxdb.local"
