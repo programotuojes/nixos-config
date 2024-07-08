@@ -40,8 +40,6 @@
     MOZ_ENABLE_WAYLAND = "1";
   };
 
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -49,6 +47,8 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  hardware.opentabletdriver.enable = true;
 
   users.users.gustas = {
     isNormalUser = true;
