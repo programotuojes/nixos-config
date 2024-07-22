@@ -80,4 +80,22 @@
   };
 
   system.stateVersion = "23.05";
+
+  virtualisation.docker = {
+    enable = true;
+    package = pkgs.docker_27;
+  };
+
+  services.nginx = {
+    proxyTimeout = "600s";
+    clientMaxBodySize = "200M";
+    virtualHosts.${hidden.immich_domain} = {
+      forceSSL = true;
+      enableACME = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:2283";
+        proxyWebsockets = true;
+      };
+    };
+  };
 }
