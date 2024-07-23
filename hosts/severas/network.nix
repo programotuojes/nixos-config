@@ -11,7 +11,7 @@
   systemd.network.networks."10-1gbps-lan" = {
     matchConfig.Name = "enp0s31f6";
     networkConfig = {
-      Address = "10.0.0.10/24";
+      Address = "10.0.0.2/24";
       Gateway = "10.0.0.1";
       DNS = "10.0.0.1";
     };
