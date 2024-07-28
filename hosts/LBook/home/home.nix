@@ -91,6 +91,7 @@
     parallel
     pkgs-unstable.insomnia
     pkgs-unstable.obsidian
+    signal-desktop
     spotify
     sqlitebrowser
     telegram-desktop
