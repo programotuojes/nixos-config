@@ -15,7 +15,7 @@
   networking.hostName = "LBook";
 
   networking.networkmanager.enable = true;
-  networking.hosts."10.0.0.10" = [
+  networking.hosts."10.0.0.2" = [
     # TODO remove once a local DNS is set up
     "grafana.severas.lan"
     "tube.severas.lan"
