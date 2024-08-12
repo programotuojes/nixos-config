@@ -54,6 +54,7 @@
     pkgs-unstable.jetbrains.rider
     syft
     teams-for-linux
+    (callPackage ../../../packages/tracy.nix { })
     ungoogled-chromium
   ];
 }
