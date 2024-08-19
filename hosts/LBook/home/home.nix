@@ -84,8 +84,8 @@
     libreoffice
     libsForQt5.yakuake
     nextcloud-client
+    nh
     nixpkgs-fmt
-    nvd
     openfortivpn
     osu-lazer-bin
     parallel
