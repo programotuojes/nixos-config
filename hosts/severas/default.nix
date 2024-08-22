@@ -6,7 +6,6 @@
     ./hardware-configuration.nix
     ./media.nix
     ./monitoring.nix
-    ./network.nix
     ./nextcloud.nix
   ];
 
@@ -97,5 +96,10 @@
         proxyWebsockets = true;
       };
     };
+  };
+
+  networking = {
+    hostName = "severas";
+    hostId = "9c295bfe";
   };
 }
