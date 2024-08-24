@@ -102,30 +102,4 @@
     hostName = "severas";
     hostId = "9c295bfe";
   };
-
-  services = {
-    jitsi-meet = {
-      enable = false;
-      hostName = "meet.klevas.org";
-      secureDomain.enable = true;
-    };
-
-    jitsi-videobridge = {
-      openFirewall = true;
-      nat = {
-        publicAddress = "meet.klevas.org";
-        localAddress = "10.0.0.2";
-      };
-      config = {
-        videobridge = {
-          websockets = {
-            enabled = true;
-            server-id = "jvb1";
-          };
-        };
-      };
-    };
-  };
-
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
 }
