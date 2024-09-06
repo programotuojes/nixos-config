@@ -87,7 +87,7 @@
     nh
     nixpkgs-fmt
     openfortivpn
-    osu-lazer-bin
+    pkgs-unstable.osu-lazer-bin
     parallel
     pkgs-unstable.insomnia
     pkgs-unstable.obsidian

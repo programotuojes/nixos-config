@@ -121,4 +121,14 @@
 
   # https://github.com/NixOS/nixpkgs/issues/207339#issuecomment-1747101887
   programs.dconf.enable = true;
+
+  programs = {
+    gamemode.enable = true;
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+      gamescopeSession.enable = true;
+    };
+  };
 }
