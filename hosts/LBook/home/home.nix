@@ -147,18 +147,24 @@
           sponsorblock
         ];
         settings = {
+          "app.normandy.enabled" = false;
           "app.shield.optoutstudies.enabled" = false;
           "browser.contentblocking.category" = "strict";
+          "browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
+          "browser.discovery.enabled" = false;
           "browser.engagement.sidebar-button.has-used" = true;
+          "browser.newtabpage.activity-stream.feeds.telemetry" = false;
+          "browser.newtabpage.activity-stream.showSponsored" = false;
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+          "browser.newtabpage.activity-stream.telemetry" = false;
           "browser.startup.page" = 3;
+          "browser.tabs.crashReporting.sendReport" = false;
           "browser.toolbars.bookmarks.visibility" = "newtab";
           "browser.uiCustomization.state" = {
             "placements" = {
               "widget-overflow-fixed-list" = [ ];
               "unified-extensions-area" = [
                 "ublock0_raymondhill_net-browser-action"
-                "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
                 "sponsorblocker_ajay_app-browser-action"
               ];
               "nav-bar" = [
@@ -198,6 +204,10 @@
           };
           "browser.warnOnQuitShortcut" = true;
           "datareporting.healthreport.uploadEnabled" = false;
+          "datareporting.policy.dataSubmissionEnabled" = false;
+          "extensions.htmlaboutaddons.recommendations.enabled" = false;
+          "extensions.pocket.enabled" = false;
+          "geo.provider.use_geoclue" = false;
           "media.eme.enabled" = true;
           "network.http.referer.disallowCrossSiteRelaxingDefault.top_navigation" = true;
           "privacy.annotate_channels.strict_list.enabled" = true;
@@ -212,6 +222,16 @@
           "signon.autofillForms.http" = true;
           "signon.management.page.breach-alerts.enabled" = false;
           "signon.rememberSignons" = false;
+          "toolkit.coverage.opt-out" = true;
+          "toolkit.telemetry.archive.enabled" = false;
+          "toolkit.telemetry.bhrPing.enabled" = false;
+          "toolkit.telemetry.coverage.opt-out" = true;
+          "toolkit.telemetry.enabled" = false;
+          "toolkit.telemetry.firstShutdownPing.enabled" = false;
+          "toolkit.telemetry.newProfilePing.enabled" = false;
+          "toolkit.telemetry.shutdownPingSender.enabled" = false;
+          "toolkit.telemetry.unified" = false;
+          "toolkit.telemetry.updatePing.enabled" = false;
           "widget.use-xdg-desktop-portal.file-picker" = 1;
         };
       in
