@@ -49,6 +49,21 @@
             }
           ];
         };
+
+        T480s = nixpkgs.lib.nixosSystem {
+          inherit system specialArgs;
+          modules = [
+            ./hosts/T480s/configuration.nix
+            inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.jolanta = import ./users/jolanta.nix;
+              home-manager.extraSpecialArgs = specialArgs;
+            }
+          ];
+        };
       };
   };
 }
