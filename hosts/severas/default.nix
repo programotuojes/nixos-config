@@ -1,4 +1,4 @@
-{ config, pkgs, hidden, ... }:
+{ pkgs, hidden, ... }:
 
 {
   imports = [
@@ -10,6 +10,13 @@
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  nix.optimise.automatic = true;
+  nix.optimise.dates = [ "Mon 04:00" ];
+
+  nix.gc.automatic = true;
+  nix.gc.dates = "Tue 04:00";
+  nix.gc.options = "--delete-older-than 7d";
 
   boot.loader.timeout = 0;
   boot.loader.systemd-boot.enable = true;

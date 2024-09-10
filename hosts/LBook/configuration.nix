@@ -10,6 +10,13 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  nix.optimise.automatic = true;
+  nix.optimise.dates = [ "Mon 04:00" ];
+
+  nix.gc.automatic = true;
+  nix.gc.dates = "Tue 04:00";
+  nix.gc.options = "--delete-older-than 7d";
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   networking.hostName = "LBook";
