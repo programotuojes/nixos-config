@@ -25,9 +25,10 @@ in
     enableTCPIP = true;
     authentication = ''
       local benchmark postgres trust
-      host  postgres  postgres 192.168.49.0/24 password
-      host  postgres  runtime  192.168.49.0/24 password
-      host  postgres  postgres 172.17.0.1/16   password
+      host  postgres  postgres    192.168.49.0/24 password
+      host  postgres  runtime     192.168.49.0/24 password
+      host  postgres  masstransit 192.168.49.0/24 password
+      host  postgres  postgres    172.17.0.1/16   password
     '';
     initialScript = pkgs.writeText "work-pass" "ALTER USER postgres PASSWORD 'DevelopmentDBpsql';";
   };
