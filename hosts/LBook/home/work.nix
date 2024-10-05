@@ -43,7 +43,7 @@
 
   home.packages = with pkgs; [
     azure-cli
-    dotnet-sdk_8
+    pkgs-unstable.dotnet-sdk_8
     gp-saml-gui
     grype
     jetbrains-toolbox
