@@ -105,8 +105,44 @@
     };
   };
 
-  networking = {
-    hostName = "severas";
-    hostId = "9c295bfe";
-  };
+  networking =
+    let
+      interface = "enp0s31f6";
+    in
+    {
+      hostName = "severas";
+      hostId = "9c295bfe";
+
+      nat.enable = true;
+      nat.externalInterface = interface;
+      nat.internalInterfaces = [ "wg0" ];
+      firewall.allowedUDPPorts = [ 51820 ];
+
+      wireguard.interfaces = {
+        wg0 = {
+          ips = [ "10.100.0.1/24" ];
+          listenPort = 51820;
+
+          postSetup = ''
+            ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o ${interface} -j MASQUERADE
+          '';
+
+          postShutdown = ''
+            ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o ${interface} -j MASQUERADE
+          '';
+
+          privateKeyFile = "/var/keys/wireguard-pk";
+          generatePrivateKeyFile = true;
+
+          peers = [
+            {
+              name = "gustafonas";
+              publicKey = "ZSKx6E5u1Vzu4nARcodruKwQKnyQzduMNeVmXZCunFw=";
+              presharedKeyFile = "/var/keys/wireguard/gustafonas/psk";
+              allowedIPs = [ "10.100.0.2/32" ];
+            }
+          ];
+        };
+      };
+    };
 }
