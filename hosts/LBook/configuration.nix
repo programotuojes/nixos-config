@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, pkgs-unstable, lib, ... }:
 
 {
   imports = [
@@ -87,6 +87,7 @@
   security.sudo.wheelNeedsPassword = false;
 
   hardware.bluetooth.enable = true;
+  hardware.bluetooth.package = pkgs-unstable.bluez;
 
   virtualisation.docker.enable = true;
 
