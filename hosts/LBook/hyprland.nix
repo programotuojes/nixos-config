@@ -18,7 +18,7 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   environment.systemPackages = with pkgs; [
-    waybar
+    pkgs-unstable.waybar
     hyprpaper
   ];
 
