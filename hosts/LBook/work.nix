@@ -1,13 +1,11 @@
-{ pkgs, pkgs-unstable, hidden, ... }:
+{ pkgs, pkgs-unstable, hidden, lib, ... }:
 
 let
   minikube-interface = "minikube";
   user = "gustas";
 in
 {
-  security.pki.certificates = [
-    hidden.work.cert
-  ];
+  security.pki.certificates = [ hidden.work.cert ];
 
   networking.hosts."192.168.49.2" = [
     "local"
@@ -198,7 +196,7 @@ in
 
     programs.ssh.matchBlocks."ssh.dev.azure.com".identityFile = "~/.ssh/azure-devops";
 
-    programs.git.includes = [
+    programs.git.includes = lib.mkAfter [
       {
         condition = "gitdir:~/bentley/";
         contents = {
