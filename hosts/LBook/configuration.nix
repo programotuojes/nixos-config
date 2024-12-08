@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, specialArgs, ... }:
 
 {
   imports = [
@@ -62,8 +62,6 @@
     pulse.enable = true;
   };
 
-  hardware.opentabletdriver.enable = true;
-
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     lm_sensors
@@ -82,8 +80,7 @@
   programs.adb.enable = true;
 
   # https://github.com/NixOS/nixpkgs/issues/207339#issuecomment-1747101887
-  # Testing out if this is needed
-  # programs.dconf.enable = true;
+  programs.dconf.enable = true;
 
   fonts = {
     packages = with pkgs; [
@@ -129,6 +126,7 @@
   ];
 
   hardware.nvidia = {
+    open = true;
     modesetting.enable = true;
     powerManagement.enable = true;
   };

@@ -4,13 +4,12 @@ let
   user = "gustas";
 in
 {
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
 
   programs.hyprland.enable = true;
 
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-
 
   home-manager.users.${user} = {
     home.packages = with pkgs; [

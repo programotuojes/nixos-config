@@ -2,6 +2,12 @@
 
 {
   home-manager.users.gustas = {
+    home.pointerCursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+      size = 24;
+    };
+
     programs.ssh = {
       enable = true;
       matchBlocks = {

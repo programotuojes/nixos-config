@@ -159,7 +159,7 @@ in
       kubelogin
       kubernetes-helm
       minikube
-      (pkgs-unstable.jetbrains.rider.overrideAttrs (prev: {
+      (jetbrains.rider.overrideAttrs (prev: {
         # Fix "java.io.FileNotFoundException: No 'linux-x64/dotnet/dotnet' found in locations".
         # This manifests as "No protocolHost for the application [Plugin: com.intellij]" later on in logs
         # and by not being able to open any project.
@@ -167,13 +167,12 @@ in
         postInstall = (prev.postInstall or "") + ''
           for dir in $out/rider/lib/ReSharperHost/linux-*; do
             rm -rf $dir/dotnet
-            ln -s ${pkgs-unstable.dotnetCorePackages.dotnet_9.runtime.unwrapped}/share/dotnet $dir/dotnet
+            ln -s ${dotnetCorePackages.dotnet_9.runtime.unwrapped}/share/dotnet $dir/dotnet
           done
         '';
       }))
       syft
       teams-for-linux
-      (callPackage ../pkgs/tracy.nix { })
       ungoogled-chromium
     ];
 

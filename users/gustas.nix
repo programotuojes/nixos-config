@@ -54,6 +54,8 @@
       '';
     };
 
+    programs.neovim.enable = true;
+
     home.packages = with pkgs; [
       file
       git-crypt
