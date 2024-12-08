@@ -65,6 +65,12 @@
       tree
       wget
       zoxide
+
+      # Neovim stuff
+      cargo
+      gcc
+      ripgrep
+      unzip
     ];
   };
 }

@@ -61,13 +61,13 @@
 
   boot.kernelParams = [ "i915.enable_guc=3" ];
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-compute-runtime
       intel-media-driver
       intel-ocl
-      onevpl-intel-gpu
+      vpl-gpu-rt
     ];
   };
 }

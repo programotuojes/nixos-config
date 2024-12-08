@@ -12,10 +12,7 @@
       enable = true;
       matchBlocks = {
         "github.com".identityFile = "~/.ssh/github";
-        "klevas.org" = {
-          identityFile = "~/.ssh/severas";
-          user = "root";
-        };
+        severas.identityFile = "~/.ssh/severas";
       };
     };
 
@@ -39,12 +36,6 @@
       vlc
       wl-clipboard
       xdg-utils
-
-      # Neovim stuff
-      cargo
-      gcc
-      ripgrep
-      unzip
     ];
 
     programs.firefox = {
