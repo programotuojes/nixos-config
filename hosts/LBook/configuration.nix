@@ -2,11 +2,11 @@
 
 {
   imports = [
-    ../../modules/hyprland.nix
-    ../../modules/work.nix
     ../../users/gustas.nix
     ./hardware-configuration.nix
     ./home.nix
+    ./hyprland.nix
+    ./work.nix
     inputs.home-manager.nixosModules.default
   ];
 
