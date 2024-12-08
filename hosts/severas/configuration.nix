@@ -1,4 +1,4 @@
-{ pkgs, hidden, ... }:
+{ pkgs, hidden, inputs, ... }:
 
 {
   imports = [
@@ -7,7 +7,14 @@
     ./media.nix
     ./monitoring.nix
     ./nextcloud.nix
+    inputs.home-manager.nixosModules.default
   ];
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = specialArgs;
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
