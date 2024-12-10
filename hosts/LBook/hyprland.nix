@@ -19,6 +19,7 @@ in
       networkmanagerapplet
       pavucontrol
       slurp
+      swaylock-effects
       waybar
     ];
 
