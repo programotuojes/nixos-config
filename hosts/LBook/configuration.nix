@@ -126,7 +126,10 @@
   ];
 
   hardware.nvidia = {
-    open = true;
+    # With true, going to sleep fails - screen goes black, but keyboard (caps lock, num pad) continue working.
+    # Tested on NVIDIA open 560.35.03.
+    open = false;
+
     modesetting.enable = true;
     powerManagement.enable = true;
   };
