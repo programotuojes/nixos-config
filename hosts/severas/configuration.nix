@@ -1,4 +1,4 @@
-{ pkgs, hidden, inputs, specialArgs, ... }:
+{ pkgs, hidden, inputs, specialArgs, config, ... }:
 
 {
   imports = [
@@ -18,7 +18,6 @@
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   nix.optimise.automatic = true;
   nix.optimise.dates = [ "Mon 04:00" ];
 
@@ -48,7 +47,10 @@
     settings.PasswordAuthentication = false;
   };
 
-  users.users.gustas.openssh.authorizedKeys.keys = [ hidden.lbook_ssh_key ];
+  users.users.gustas = {
+    extraGroups = [ config.services.deluge.group ];
+    openssh.authorizedKeys.keys = [ hidden.lbook_ssh_key ];
+  };
 
   environment.systemPackages = with pkgs; [
     lm_sensors
