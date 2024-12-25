@@ -1,8 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [
+    ../../users/jolanta.nix
     ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.default
   ];
 
   system.stateVersion = "24.05";
@@ -33,12 +35,6 @@
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
 
-  users.users.jolanta = {
-    isNormalUser = true;
-    description = "Jolanta";
-    extraGroups = [ "networkmanager" "wheel" ];
-  };
-
   environment.systemPackages = with pkgs; [
     file
     lm_sensors
@@ -55,6 +51,4 @@
 
   hardware.enableRedistributableFirmware = true;
   hardware.bluetooth.enable = true;
-
-  security.sudo.wheelNeedsPassword = false;
 }
