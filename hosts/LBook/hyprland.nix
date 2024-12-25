@@ -13,6 +13,7 @@ in
 
   home-manager.users.${user} = {
     home.packages = with pkgs; [
+      brightnessctl
       grim
       hyprland-per-window-layout
       hyprpicker
