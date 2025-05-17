@@ -35,10 +35,13 @@
       includes = [
         {
           condition = "gitdir:~/";
-          contents.user = {
-            email = "programotuojes@users.noreply.github.com";
-            name = "Gustas Klevinskas";
-          };
+          contents = {
+	    user = {
+              email = "programotuojes@users.noreply.github.com";
+              name = "Gustas Klevinskas";
+            };
+	    core.sshCommand = "ssh -i ~/.ssh/github-programotuojes";
+	  };
         }
       ];
     };
