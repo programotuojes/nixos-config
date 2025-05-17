@@ -54,6 +54,7 @@
     darwinConfigurations."Gustass-MacBook-Pro" = nix-darwin.lib.darwinSystem {
       specialArgs = {
         inherit inputs;
+	hidden = specialArgs.hidden;
       };
       modules = [ ./hosts/mac/configuration.nix ];
     };

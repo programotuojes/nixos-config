@@ -1,4 +1,4 @@
-{ pkgs, inputs, specialArgs, ... }:
+{ pkgs, inputs, specialArgs, hidden, ... }:
 
 {
   imports = [
@@ -59,6 +59,14 @@
     extraSpecialArgs = specialArgs;
 
     users.gustas = {
+      programs.ssh = {
+        enable = true;
+        matchBlocks = {
+	  "github.com".identityFile = "~/github";
+          ${hidden.severas_domain}.identityFile = "~/.ssh/severas";
+        };
+      };
+
       home.packages = with pkgs; [
         deluge
 	exiftool
