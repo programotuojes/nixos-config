@@ -6,6 +6,7 @@
     ./git.nix
     ./hardware-configuration.nix
     ./media.nix
+    ./minecraft.nix
     ./monitoring.nix
     ./nextcloud.nix
     inputs.home-manager.nixosModules.default

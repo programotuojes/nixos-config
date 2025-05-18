@@ -11,6 +11,10 @@
       url = "github:LnL7/nix-darwin/nix-darwin-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-minecraft = {
+      url = "github:Infinidoge/nix-minecraft";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { nixpkgs, nixpkgs-unstable, nix-darwin, ... }@inputs:
@@ -30,6 +34,7 @@
         inherit system specialArgs;
         modules = [
           ./hosts/severas/configuration.nix
+          inputs.nix-minecraft.nixosModules.minecraft-servers
         ];
       };
 
