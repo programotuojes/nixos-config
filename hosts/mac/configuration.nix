@@ -72,6 +72,7 @@
 	exiftool
         discord
         raycast
+        zulu
       ];
     };
   };
