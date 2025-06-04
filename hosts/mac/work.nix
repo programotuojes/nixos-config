@@ -6,6 +6,14 @@ let
     sdk_8_0
     sdk_9_0
   ];
+  terraform-old-pkgs = import
+    (builtins.fetchGit {
+      name = "terraform-old-trafi";
+      url = "https://github.com/NixOS/nixpkgs/";
+      ref = "refs/heads/nixpkgs-unstable";
+      rev = "d1c3fea7ecbed758168787fe4e4a3157e52bc808";
+    })
+    { system = "aarch64-darwin"; };
 in
 {
   nixpkgs.config.permittedInsecurePackages = [
@@ -27,6 +35,7 @@ in
       awscli2
       dotnet-sdks
       nodejs_23
+      terraform-old-pkgs.terraform
     ];
 
     programs.git.includes = lib.mkAfter [
@@ -37,9 +46,6 @@ in
             email = "gustas.klevinskas@trafi.com";
             name = "Gustas Klevinskas";
           };
-	  core = {
-	    sshCommand = "ssh -i ~/.ssh/github";
-	  };
         };
       }
     ];

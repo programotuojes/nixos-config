@@ -62,7 +62,7 @@
       programs.ssh = {
         enable = true;
         matchBlocks = {
-	  "github.com".identityFile = "~/github";
+          "github.com".identityFile = "~/.ssh/github";
           ${hidden.severas_domain}.identityFile = "~/.ssh/severas";
         };
       };
