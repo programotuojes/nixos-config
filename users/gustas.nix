@@ -51,7 +51,6 @@
       initExtra = ''
         PROMPT_COMMAND='PS1_CMD1=$(git branch --show-current 2>/dev/null)'
 	PS1='\n╭ \[\e[38;5;172m\][\u@\h]\[\e[0m\] \[\e[38;5;111m\]\w\[\e[0m\] \[\e[38;5;102m\]''${PS1_CMD1}\n\[\e[0m\]╰ \$ '
-        eval "$(zoxide init bash)"
       '';
     };
 
@@ -67,6 +66,8 @@
       defaultEditor = true;
     };
 
+    programs.zoxide.enable = true;
+
     home.packages = with pkgs; [
       file
       git-crypt
@@ -75,7 +76,6 @@
       nixpkgs-fmt
       tree
       wget
-      zoxide
 
       # Neovim stuff
       cargo
