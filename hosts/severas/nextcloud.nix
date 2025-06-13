@@ -27,6 +27,11 @@
       default_phone_region = "LT";
       log_type = "file";
       preview_ffmpeg_path = "${pkgs.ffmpeg-headless}/bin/ffmpeg";
+      maintenance_window_start = 0;
+    };
+
+    phpOptions = {
+      "opcache.interned_strings_buffer" = "24";
     };
   };
 
