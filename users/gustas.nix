@@ -30,6 +30,7 @@
       extraConfig = {
         init.defaultBranch = "main";
         push.autoSetupRemote = true;
+        rerere.enabled = true;
       };
       aliases.sw = "switch";
       includes = [
