@@ -32,7 +32,10 @@
         push.autoSetupRemote = true;
         rerere.enabled = true;
       };
-      aliases.sw = "switch";
+      aliases = {
+        sw = "switch";
+        l = "log --oneline";
+      };
       includes = [
         {
           condition = "gitdir:~/";
