@@ -53,6 +53,7 @@
     openssh.authorizedKeys.keys = [
       hidden.lbook_ssh_key
       hidden.mac_ssh_key
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM65USbIdgavJrVAn52udFA2Fripx/evPMMF0e2TWTJO" # Bitwarden
     ];
   };
 
