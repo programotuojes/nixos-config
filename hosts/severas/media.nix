@@ -4,7 +4,6 @@
   networking.firewall.allowedTCPPorts = [
     config.services.nginx.defaultHTTPListenPort
     8096 # Android client. Remove once DNS is set up
-    config.services.deluge.config.daemon_port
   ];
   networking.firewall.allowedUDPPorts = [
     # Service discovery ports (https://jellyfin.org/docs/general/networking/index.html#static-ports)
@@ -32,6 +31,11 @@
           proxyWebsockets = true;
         };
       };
+      virtualHosts."deluge.severas.lan".locations = {
+        "/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.deluge.web.port}";
+        };
+      };
     };
 
   services.deluge = {
@@ -40,6 +44,11 @@
     openFirewall = true;
     dataDir = "/pool/torrents";
     authFile = "/var/keys/deluge-auth";
+
+    web = {
+      enable = true;
+      openFirewall = true;
+    };
 
     config = {
       allow_remote = true;
