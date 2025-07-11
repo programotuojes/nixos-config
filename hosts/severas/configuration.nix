@@ -73,19 +73,6 @@
     package = pkgs.docker_27;
   };
 
-  services.nginx = {
-    proxyTimeout = "600s";
-    clientMaxBodySize = "200M";
-    virtualHosts.${hidden.immich_domain} = {
-      forceSSL = true;
-      enableACME = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:2283";
-        proxyWebsockets = true;
-      };
-    };
-  };
-
   networking =
     let
       interface = "enp0s31f6";

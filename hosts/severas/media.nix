@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, hidden, ... }:
 
 {
   networking.firewall.allowedTCPPorts = [
@@ -17,6 +17,8 @@
     in
     {
       enable = true;
+      proxyTimeout = "10m";
+      clientMaxBodySize = "10G";
       virtualHosts.${domain}.locations = {
         "= /" = {
           return = "301 http://${domain}/web/index.html";
@@ -34,6 +36,14 @@
       virtualHosts."deluge.severas.lan".locations = {
         "/" = {
           proxyPass = "http://127.0.0.1:${toString config.services.deluge.web.port}";
+        };
+      };
+      virtualHosts.${hidden.immich_domain} = {
+        forceSSL = true;
+        enableACME = true;
+        locations."/" = {
+          proxyPass = "http://localhost:2283";
+          proxyWebsockets = true;
         };
       };
     };
@@ -78,5 +88,13 @@
       intel-ocl
       vpl-gpu-rt
     ];
+  };
+
+  users.users.${config.services.immich.user}.extraGroups = [ "nextcloud" ];
+
+  services.immich = {
+    enable = true;
+    accelerationDevices = [ "/dev/dri/renderD128" ];
+    mediaLocation = "/pool/immich";
   };
 }
