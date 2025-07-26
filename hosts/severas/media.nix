@@ -3,12 +3,10 @@
 {
   networking.firewall.allowedTCPPorts = [
     config.services.nginx.defaultHTTPListenPort
-    8096 # Android client. Remove once DNS is set up
   ];
   networking.firewall.allowedUDPPorts = [
-    # Service discovery ports (https://jellyfin.org/docs/general/networking/index.html#static-ports)
-    1900
-    7359
+    config.services.nginx.defaultHTTPListenPort
+    config.networking.wg-quick.interfaces.wg-deluge.listenPort
   ];
 
   services.nginx =
@@ -55,24 +53,34 @@
     dataDir = "/pool/torrents";
     authFile = "/var/keys/deluge-auth";
 
-    web = {
-      enable = true;
-      openFirewall = true;
-    };
+    web.enable = true;
 
     config = {
-      allow_remote = true;
-      random_port = false;
-      daemon_port = 58846;
+      listen_interace = "wg-deluge";
+      outgoing_interace = "wg-deluge";
       download_location = "/pool/torrents";
       torrentfiles_location = "/pool/torrents/torrentfiles";
       copy_torrent_file = true;
-      upnp = false;
-      natpmp = false;
       max_active_seeding = -1;
       max_active_downloading = -1;
       max_active_limit = -1;
+      new_release_check = false;
     };
+  };
+
+  networking.wg-quick.interfaces.wg-deluge = {
+    address = [ "10.2.0.2/32" ];
+    dns = [ "10.2.0.1" ];
+    privateKeyFile = "/var/keys/proton-private";
+    listenPort = 51821;
+
+    peers = [
+      {
+        publicKey = "36G8+pInNcPK9F1TpHglWs9Pk5uJOY9o8SCNrCBgvHE=";
+        allowedIPs = [ "0.0.0.0/0" "::/0" ];
+        endpoint = "89.222.96.158:51820";
+      }
+    ];
   };
 
   services.jellyfin.enable = true;
