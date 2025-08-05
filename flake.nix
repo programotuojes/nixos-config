@@ -59,6 +59,10 @@
     darwinConfigurations."Gustass-MacBook-Pro" = nix-darwin.lib.darwinSystem {
       specialArgs = {
         inherit inputs;
+	pkgs-unstable = import nixpkgs-unstable {
+          system = "aarch64-darwin";
+	  config.allowUnfree = true;
+	};
 	hidden = specialArgs.hidden;
       };
       modules = [ ./hosts/mac/configuration.nix ];

@@ -14,7 +14,8 @@
   home-manager.users.gustas = {
     programs.home-manager.enable = true;
     home.username = "gustas";
-    home.homeDirectory = if pkgs.stdenv.isLinux
+    home.homeDirectory =
+      if pkgs.stdenv.isLinux
       then "/home/gustas"
       else "/Users/gustas";
     home.stateVersion = "23.11";
@@ -40,12 +41,12 @@
         {
           condition = "gitdir:~/";
           contents = {
-	    user = {
+            core.sshCommand = "ssh -i ~/.ssh/github-programotuojes";
+            user = {
               email = "programotuojes@users.noreply.github.com";
               name = "Gustas Klevinskas";
             };
-	    core.sshCommand = "ssh -i ~/.ssh/github-programotuojes";
-	  };
+          };
         }
       ];
     };
@@ -54,7 +55,7 @@
       enable = true;
       initExtra = ''
         PROMPT_COMMAND='PS1_CMD1=$(git branch --show-current 2>/dev/null)'
-	PS1='\n╭ \[\e[38;5;172m\][\u@\h]\[\e[0m\] \[\e[38;5;111m\]\w\[\e[0m\] \[\e[38;5;102m\]''${PS1_CMD1}\n\[\e[0m\]╰ \$ '
+        PS1='\n╭ \[\e[38;5;172m\][\u@\h]\[\e[0m\] \[\e[38;5;111m\]\w\[\e[0m\] \[\e[38;5;102m\]''${PS1_CMD1}\n\[\e[0m\]╰ \$ '
       '';
     };
 
