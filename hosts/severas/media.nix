@@ -6,7 +6,7 @@
   ];
   networking.firewall.allowedUDPPorts = [
     config.services.nginx.defaultHTTPListenPort
-    config.networking.wg-quick.interfaces.wg-deluge.listenPort
+    # config.networking.wireguard.interfaces.wg-deluge.listenPort
   ];
 
   services.nginx =
@@ -56,8 +56,10 @@
     web.enable = true;
 
     config = {
-      listen_interace = "wg-deluge";
-      outgoing_interace = "wg-deluge";
+      # listen_interace = "wg-deluge";
+      # listen_interaces = "wg-deluge";
+      # outgoing_interace = "wg-deluge";
+      # outgoing_interaces = "wg-deluge";
       download_location = "/pool/torrents";
       torrentfiles_location = "/pool/torrents/torrentfiles";
       copy_torrent_file = true;
@@ -82,6 +84,21 @@
       }
     ];
   };
+
+  # networking.wireguard.interfaces.wg-deluge = {
+  #   ips = [ "10.2.0.2/32" ];
+  #   # dns = [ "10.2.0.1" ];
+  #   privateKeyFile = "/var/keys/proton-private";
+  #   listenPort = 51821;
+  #
+  #   peers = [
+  #     {
+  #       publicKey = "36G8+pInNcPK9F1TpHglWs9Pk5uJOY9o8SCNrCBgvHE=";
+  #       allowedIPs = [ "10.2.0.2/32" ];
+  #       endpoint = "89.222.96.158:51820";
+  #     }
+  #   ];
+  # };
 
   services.jellyfin.enable = true;
   users.users.${config.services.jellyfin.user}.extraGroups = [ config.services.deluge.group ];
