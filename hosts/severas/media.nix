@@ -70,19 +70,12 @@
     };
   };
 
-  networking.wg-quick.interfaces.wg-deluge = {
-    address = [ "10.2.0.2/32" ];
-    dns = [ "10.2.0.1" ];
-    privateKeyFile = "/var/keys/proton-private";
-    listenPort = 51821;
-
-    peers = [
-      {
-        publicKey = "36G8+pInNcPK9F1TpHglWs9Pk5uJOY9o8SCNrCBgvHE=";
-        allowedIPs = [ "0.0.0.0/0" "::/0" ];
-        endpoint = "89.222.96.158:51820";
-      }
-    ];
+  services.prometheus.exporters.deluge = rec {
+    enable = true;
+    group = config.services.deluge.group;
+    exportPerTorrentMetrics = true;
+    delugeUser = "gustas";
+    delugePasswordFile = "${config.services.deluge.authFile} | grep ${delugeUser} | cut -d: -f2";
   };
 
   # networking.wireguard.interfaces.wg-deluge = {

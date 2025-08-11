@@ -60,6 +60,7 @@ in
             "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
             "127.0.0.1:${toString config.services.prometheus.exporters.zfs.port}"
             "127.0.0.1:${toString config.services.cadvisor.port}"
+            "127.0.0.1:${toString config.services.prometheus.exporters.deluge.port}"
           ];
         }];
       }
