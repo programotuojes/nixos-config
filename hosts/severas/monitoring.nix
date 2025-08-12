@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, hidden, pkgs, ... }:
 
 let
   domain = "grafana.severas.lan";
@@ -98,4 +98,45 @@ in
         proxyWebsockets = true;
       };
   };
+
+  programs.msmtp = {
+    enable = true;
+    setSendmail = true;
+    defaults = {
+      aliases = "/etc/aliases";
+      tls_trust_file = "/etc/ssl/certs/ca-certificates.crt";
+      tls = "on";
+      auth = "login";
+      tls_starttls = "off";
+    };
+    accounts = {
+      default = {
+        host = hidden.smtp.server;
+        port = hidden.smtp.port;
+        passwordeval = "cat ${hidden.smtp.password_file}";
+        user = hidden.smtp.username;
+        from = "Severas <severas@${hidden.smtp.host}>";
+        domain = hidden.smtp.host;
+      };
+    };
+  };
+
+  environment.etc.aliases.text = ''
+    default: ${hidden.administrator_email}
+  '';
+
+  services.zfs.zed.settings = {
+    ZED_DEBUG_LOG = "/tmp/zed.debug.log";
+    ZED_EMAIL_ADDR = [ "root" ];
+    ZED_EMAIL_PROG = "${pkgs.msmtp}/bin/msmtp";
+    ZED_EMAIL_OPTS = "@ADDRESS@";
+
+    ZED_NOTIFY_INTERVAL_SECS = 3600;
+    ZED_NOTIFY_VERBOSE = true;
+
+    ZED_USE_ENCLOSURE_LEDS = true;
+    ZED_SCRUB_AFTER_RESILVER = true;
+  };
+
+  services.zfs.zed.enableMail = false; # This option does not work; will return error
 }
