@@ -38,7 +38,7 @@
   systemd.services.nextcloud-cron.path = [ pkgs.perl ];
 
   services.onlyoffice = {
-    enable = false; # https://github.com/NixOS/nixpkgs/issues/352443
+    enable = true;
     hostname = hidden.onlyoffice_domain;
     jwtSecretFile = "/var/keys/onlyoffice";
   };
@@ -61,10 +61,10 @@
         enableACME = true;
       };
 
-      # ${hidden.onlyoffice_domain} = {
-      #   forceSSL = true;
-      #   enableACME = true;
-      # };
+      ${hidden.onlyoffice_domain} = {
+        forceSSL = true;
+        enableACME = true;
+      };
     };
   };
 
