@@ -67,6 +67,7 @@
       max_active_downloading = -1;
       max_active_limit = -1;
       new_release_check = false;
+      max_upload_speed = 2048.0;
     };
   };
 
