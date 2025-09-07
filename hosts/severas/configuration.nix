@@ -34,6 +34,7 @@
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
   boot.zfs.extraPools = [ "pool" ];
+  services.zfs.autoScrub.enable = true;
   services.fstrim.enable = true;
 
   hardware.cpu.intel.updateMicrocode = true;
