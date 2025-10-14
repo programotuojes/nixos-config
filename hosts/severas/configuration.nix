@@ -110,6 +110,12 @@
               presharedKeyFile = "/var/keys/wireguard/gustafonas/psk";
               allowedIPs = [ "10.100.0.2/32" ];
             }
+            {
+              name = "Mac";
+              publicKey = "gpRr2A0U9vde0D099gq64qw33b3Jc6BiDDQLd0dN8j8=";
+              presharedKeyFile = "/var/keys/wireguard/Mac/psk";
+              allowedIPs = [ "10.100.0.3/32" ];
+            }
           ];
         };
       };
