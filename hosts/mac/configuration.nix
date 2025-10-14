@@ -138,6 +138,8 @@
         coreutils
         exiftool
         raycast
+        wireguard-tools
+        yt-dlp
         zulu
       ];
 
