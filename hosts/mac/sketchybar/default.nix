@@ -29,7 +29,7 @@
         padding_left=5
         padding_right=5
         icon.font="Hack Nerd Font:Bold:17.0"
-        label.font="Hack Nerd Font:Bold:14.0"
+        label.font="JetBrains Mono:Bold:14.0"
         icon.color=0xffffffff
         label.color=0xffffffff
         icon.padding_left=4
@@ -91,7 +91,11 @@
                  --subscribe volume volume_change \
                  --add item battery right \
                  --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
-                 --subscribe battery system_woke power_source_change
+                 --subscribe battery system_woke power_source_change \
+                 --add item language right \
+                 --add event language_change_event AppleSelectedInputSourcesChangedNotification \
+                 --subscribe language language_change_event \
+                 --set language script="$PLUGIN_DIR/language.sh"
 
       ##### Force all scripts to run the first time (never do this in a script) #####
       sketchybar --update

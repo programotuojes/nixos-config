@@ -85,6 +85,7 @@
 
   system.activationScripts.postActivation.text = ''
     su - "$(logname)" -c '${config.services.skhd.package}/bin/skhd -r'
+    sudo ${config.services.yabai.package}/bin/yabai --load-sa
   '';
 
   services.skhd = {
@@ -101,10 +102,6 @@
       layout = "bsp";
       focus_follows_mouse = "autofocus";
       window_gap = 10;
-      top_padding = 10;
-      bottom_padding = 10;
-      left_padding = 10;
-      right_padding = 10;
       external_bar = "all:40:0";
     };
   };
@@ -149,8 +146,8 @@
           "webgl.disabled" = false;
           "privacy.clearOnShutdown.history" = false;
           "privacy.resistFingerprinting" = false;
-          "privacy.fingerprintingProtection" = true;
-          "privacy.fingerprintingProtection.overrides" = "+AllTargets,-CSSPrefersColorScheme,-JSDateTimeUTC";
+          "privacy.fingerprintingProtection" = false;
+          # "privacy.fingerprintingProtection.overrides" = "+AllTargets,-CSSPrefersColorScheme,-JSDateTimeUTC";
         };
       };
 
