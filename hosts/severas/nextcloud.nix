@@ -100,8 +100,9 @@
 
       server_name = hidden.collabora_domain;
       admin_console.enable = false;
-      remote_font_config.url = "https://${hidden.nextcloud_domain}/apps/richdocuments/settings/fonts.json";
       fonts_missing.handling = "both";
     };
   };
+
+  systemd.services.coolwsd-systemplate-setup.path = [ pkgs.cpio ];
 }
