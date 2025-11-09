@@ -37,12 +37,6 @@
 
   systemd.services.nextcloud-cron.path = [ pkgs.perl ];
 
-  services.onlyoffice = {
-    enable = true;
-    hostname = hidden.onlyoffice_domain;
-    jwtSecretFile = "/var/keys/onlyoffice";
-  };
-
   security.acme = {
     acceptTerms = true;
     defaults.email = hidden.acme_email;
@@ -61,9 +55,13 @@
         enableACME = true;
       };
 
-      ${hidden.onlyoffice_domain} = {
+      ${hidden.collabora_domain} = {
         forceSSL = true;
         enableACME = true;
+        locations."/" = {
+          proxyPass = "http://[::1]:${toString config.services.collabora-online.port}";
+          proxyWebsockets = true;
+        };
       };
     };
   };
@@ -74,4 +72,36 @@
   ];
 
   services.postgresql.enable = true;
+
+  # Needed for "Allow list for WOPI requests"
+  # https://diogotc.com/blog/collabora-nextcloud-nixos
+  networking.hosts = {
+    "127.0.0.1" = [ hidden.nextcloud_domain hidden.collabora_domain ];
+    "::1" = [ hidden.nextcloud_domain hidden.collabora_domain ];
+  };
+
+  services.collabora-online = {
+    enable = true;
+    settings = {
+      ssl = {
+        enable = false;
+        termination = true;
+      };
+
+      net = {
+        listen = "loopback";
+        post_allow.host = ["::1"];
+      };
+
+      storage.wopi = {
+        "@allow" = true;
+        host = [hidden.nextcloud_domain];
+      };
+
+      server_name = hidden.collabora_domain;
+      admin_console.enable = false;
+      remote_font_config.url = "https://${hidden.nextcloud_domain}/apps/richdocuments/settings/fonts.json";
+      fonts_missing.handling = "both";
+    };
+  };
 }
