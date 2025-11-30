@@ -3,6 +3,7 @@
 {
   imports = [
     ../../users/gustas.nix
+    ./authelia.nix
     ./git.nix
     ./hardware-configuration.nix
     ./media.nix

@@ -17,17 +17,16 @@ in
     config.services.nginx.defaultHTTPListenPort
   ];
 
-  services.nginx =
-    let
-      domain = "tube.severas.lan";
-    in
-    {
-      enable = true;
-      proxyTimeout = "10m";
-      clientMaxBodySize = "10G";
-      virtualHosts.${domain}.locations = {
+  services.nginx = {
+    enable = true;
+    proxyTimeout = "10m";
+    clientMaxBodySize = "10G";
+    virtualHosts.${hidden.domains.jellyfin} = {
+      forceSSL = true;
+      enableACME = true;
+      locations = {
         "= /" = {
-          return = "301 http://${domain}/web/index.html";
+          return = "301 https://${hidden.domains.jellyfin}/web/index.html";
         };
 
         "/" = {
@@ -39,20 +38,21 @@ in
           proxyWebsockets = true;
         };
       };
-      virtualHosts."deluge.severas.lan".locations = {
-        "/" = {
-          proxyPass = "http://127.0.0.1:${toString config.services.deluge.web.port}";
-        };
-      };
-      virtualHosts.${hidden.immich_domain} = {
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          proxyPass = "http://localhost:2283";
-          proxyWebsockets = true;
-        };
+    };
+    virtualHosts."deluge.severas.lan".locations = {
+      "/" = {
+        proxyPass = "http://127.0.0.1:${toString config.services.deluge.web.port}";
       };
     };
+    virtualHosts.${hidden.immich_domain} = {
+      forceSSL = true;
+      enableACME = true;
+      locations."/" = {
+        proxyPass = "http://localhost:2283";
+        proxyWebsockets = true;
+      };
+    };
+  };
 
   services.deluge = {
     enable = true;
