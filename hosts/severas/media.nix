@@ -1,4 +1,4 @@
-{ config, pkgs, hidden, ... }:
+{ config, pkgs, pkgs-unstable, hidden, ... }:
 
 let
   vpn = {
@@ -237,4 +237,8 @@ in
     accelerationDevices = [ "/dev/dri/renderD128" ];
     mediaLocation = "/pool/immich";
   };
+
+  environment.systemPackages = [
+    pkgs-unstable.immich-go
+  ];
 }
