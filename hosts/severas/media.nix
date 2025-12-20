@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, hidden, ... }:
+{ config, pkgs, pkgs-unstable, hidden, lib, ... }:
 
 let
   vpn = {
@@ -81,7 +81,13 @@ in
     };
   };
 
-  systemd.services.deluged.serviceConfig.MemoryHigh = "5G";
+  systemd.services.deluged.serviceConfig = {
+    MemoryHigh = "5G";
+    # Once the VPN script changes a port, Deluge uses 100% of one core.
+    # Periodically restart to not waste electricity.
+    RuntimeMaxSec = "1h";
+    Restart = lib.mkForce "always";
+  };
 
   systemd.services.deluged-restart = {
     description = "Fixes 'Error: Host not found (authoritative)' on reboot";
