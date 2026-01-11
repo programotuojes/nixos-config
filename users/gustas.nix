@@ -28,14 +28,14 @@
 
     programs.git = {
       enable = true;
-      extraConfig = {
+      settings = {
         init.defaultBranch = "main";
         push.autoSetupRemote = true;
         rerere.enabled = true;
-      };
-      aliases = {
-        sw = "switch";
-        l = "log --oneline";
+        alias = {
+          sw = "switch";
+          l = "log --oneline";
+        };
       };
       includes = [
         {
