@@ -140,17 +140,6 @@
         zulu
       ];
 
-      programs.librewolf = {
-        enable = true;
-        settings = {
-          "webgl.disabled" = false;
-          "privacy.clearOnShutdown.history" = false;
-          "privacy.resistFingerprinting" = false;
-          "privacy.fingerprintingProtection" = false;
-          # "privacy.fingerprintingProtection.overrides" = "+AllTargets,-CSSPrefersColorScheme,-JSDateTimeUTC";
-        };
-      };
-
       programs.kitty = {
         enable = true;
 
