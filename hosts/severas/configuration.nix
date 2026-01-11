@@ -64,8 +64,8 @@
   ];
 
   services.postgresql = {
-    package = pkgs.postgresql_16;
-    dataDir = "/pool/postgres/16";
+    package = pkgs.postgresql_18;
+    dataDir = "/pool/postgres/18";
   };
 
   system.stateVersion = "23.05";

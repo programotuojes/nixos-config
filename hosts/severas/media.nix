@@ -242,6 +242,7 @@ in
     enable = true;
     accelerationDevices = [ "/dev/dri/renderD128" ];
     mediaLocation = "/pool/immich";
+    database.enableVectors = false;
   };
 
   environment.systemPackages = [
