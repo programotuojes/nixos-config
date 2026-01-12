@@ -2,9 +2,10 @@
 
 let
   dotnet-sdks = with pkgs.dotnetCorePackages; combinePackages [
-    sdk_6_0
-    sdk_8_0
-    sdk_9_0
+    sdk_6_0-bin
+    sdk_8_0-bin
+    sdk_9_0-bin
+    sdk_10_0-bin
   ];
 
   terraform-old-pkgs = import
