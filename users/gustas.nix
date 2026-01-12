@@ -32,6 +32,7 @@
         init.defaultBranch = "main";
         push.autoSetupRemote = true;
         rerere.enabled = true;
+        core.autocrlf = "input";
         alias = {
           sw = "switch";
           l = "log --oneline";
