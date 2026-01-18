@@ -4,7 +4,4 @@
 # the item invoking this script:
 # https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
 
-week=$(date +%W)
-ktu_week=$((week - 34))
-
-sketchybar --set "$NAME" label="$(date "+($ktu_week) %W / 53, %b %d, %H:%M")"
+sketchybar --set "$NAME" label="$(date "+%a %d   %H:%M")"
