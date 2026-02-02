@@ -55,14 +55,14 @@
         enableACME = true;
       };
 
-      ${hidden.collabora_domain} = {
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          proxyPass = "http://[::1]:${toString config.services.collabora-online.port}";
-          proxyWebsockets = true;
-        };
-      };
+      # ${hidden.collabora_domain} = {
+      #   forceSSL = true;
+      #   enableACME = true;
+      #   locations."/" = {
+      #     proxyPass = "http://[::1]:${toString config.services.collabora-online.port}";
+      #     proxyWebsockets = true;
+      #   };
+      # };
     };
   };
 
@@ -75,13 +75,13 @@
 
   # Needed for "Allow list for WOPI requests"
   # https://diogotc.com/blog/collabora-nextcloud-nixos
-  networking.hosts = {
-    "127.0.0.1" = [ hidden.nextcloud_domain hidden.collabora_domain ];
-    "::1" = [ hidden.nextcloud_domain hidden.collabora_domain ];
-  };
+  # networking.hosts = {
+  #   "127.0.0.1" = [ hidden.nextcloud_domain hidden.collabora_domain ];
+  #   "::1" = [ hidden.nextcloud_domain hidden.collabora_domain ];
+  # };
 
   services.collabora-online = {
-    enable = true;
+    enable = false;
     settings = {
       ssl = {
         enable = false;
@@ -104,5 +104,5 @@
     };
   };
 
-  systemd.services.coolwsd-systemplate-setup.path = [ pkgs.cpio ];
+  # systemd.services.coolwsd-systemplate-setup.path = [ pkgs.cpio ];
 }
