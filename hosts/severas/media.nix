@@ -3,11 +3,10 @@
 let
   vpn = {
     table = "protonvpn";
-    interface = "wg-deluge";
+    interface = "wg-p2p";
     ip = "10.2.0.2/32";
     gateway = "10.2.0.1";
   };
-  delugeUser = "gustas";
 in
 {
   networking.firewall.allowedTCPPorts = [
@@ -39,9 +38,9 @@ in
         };
       };
     };
-    virtualHosts."deluge.severas.lan".locations = {
+    virtualHosts."torrent.severas.lan".locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:${toString config.services.deluge.web.port}";
+        proxyPass = "http://127.0.0.1:${toString config.services.qbittorrent.webuiPort}";
       };
     };
     virtualHosts.${hidden.immich_domain} = {
@@ -54,100 +53,42 @@ in
     };
   };
 
-  services.deluge = {
-    enable = true;
-    package = pkgs.deluged;
-    declarative = true;
-    dataDir = "/pool/torrents";
-    authFile = "/var/keys/deluge-auth";
-
-    web.enable = true;
-
-    config = {
-      listen_interface = vpn.interface;
-      outgoing_interface = vpn.interface;
-      download_location = "/pool/torrents";
-      torrentfiles_location = "/pool/torrents/torrentfiles";
-      copy_torrent_file = true;
-      max_active_seeding = -1;
-      max_active_downloading = -1;
-      max_active_limit = -1;
-      new_release_check = false;
-      max_upload_speed = 2048.0;
-
-      upnp = false;
-      natpmp = false;
-      random_port = false;
-    };
-  };
-
-  systemd.services.deluged.serviceConfig = {
-    MemoryHigh = "5G";
-    # Once the VPN script changes a port, Deluge uses 100% of one core.
-    # Periodically restart to not waste electricity.
-    RuntimeMaxSec = "1h";
-    Restart = lib.mkForce "always";
-  };
-
-  systemd.services.deluged-restart = {
-    description = "Fixes 'Error: Host not found (authoritative)' on reboot";
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = [ "/run/current-system/sw/bin/systemctl restart deluged.service" ];
-    };
-  };
-  systemd.timers.deluged-restart = {
-    description = "Fixes 'Error: Host not found (authoritative)' on reboot";
-    wantedBy = [ "multi-user.target" ];
-    timerConfig = {
-      OnBootSec = "20s";
-      Unit = "deluged-restart.service";
-    };
-  };
-
-  services.prometheus.exporters.deluge = {
-    enable = true;
-    group = config.services.deluge.group;
-    exportPerTorrentMetrics = true;
-    delugeUser = delugeUser;
-    delugePasswordFile = "${config.services.deluge.authFile} | grep ${delugeUser} | cut -d: -f2";
-  };
-
   networking.iproute2 = {
     enable = true;
     rttablesExtraConfig = "200 ${vpn.table}";
   };
 
-  networking.wireguard.interfaces.${vpn.interface} =
-    {
-      ips = [ vpn.ip ];
-      listenPort = 51821;
-      table = vpn.table;
-      privateKeyFile = "/var/keys/proton-private";
+  networking.wireguard.interfaces.${vpn.interface} = {
+    ips = [ vpn.ip ];
+    listenPort = 51821;
+    table = vpn.table;
+    privateKeyFile = "/var/keys/proton-private";
 
-      postSetup = ''
-        ${pkgs.iproute2}/bin/ip rule add from ${vpn.ip} table ${vpn.table} priority 1000
-        ${pkgs.iproute2}/bin/ip route add ${vpn.gateway} dev ${vpn.interface}
-      '';
+    postSetup = ''
+      ${pkgs.iproute2}/bin/ip rule add from ${vpn.ip} table ${vpn.table} priority 1000
+      ${pkgs.iproute2}/bin/ip route add ${vpn.gateway} dev ${vpn.interface}
+    '';
 
-      postShutdown = ''
-        ${pkgs.iproute2}/bin/ip rule del from ${vpn.ip} table ${vpn.table}
-        ${pkgs.iproute2}/bin/ip route del ${vpn.gateway} dev ${vpn.interface}
-      '';
+    postShutdown = ''
+      ${pkgs.iproute2}/bin/ip rule del from ${vpn.ip} table ${vpn.table}
+      ${pkgs.iproute2}/bin/ip route del ${vpn.gateway} dev ${vpn.interface}
+    '';
 
-      peers = [
-        {
-          publicKey = "36G8+pInNcPK9F1TpHglWs9Pk5uJOY9o8SCNrCBgvHE=";
-          allowedIPs = [ "0.0.0.0/0" "::/0" ];
-          endpoint = "89.222.96.158:51820";
-        }
-      ];
-    };
+    peers = [
+      {
+        publicKey = "36G8+pInNcPK9F1TpHglWs9Pk5uJOY9o8SCNrCBgvHE=";
+        allowedIPs = [ "0.0.0.0/0" "::/0" ];
+        endpoint = "89.222.96.158:51820";
+      }
+    ];
+  };
 
   systemd.services.proton-vpn-port-forward = {
     description = "Proton VPN port forwarding";
-    after = [ "wireguard-${vpn.interface}.target" ];
     wantedBy = [ "multi-user.target" ];
+    after = [ "wireguard-${vpn.interface}.target" "qbittorrent.service" ];
+    partOf = [ "qbittorrent.service" ];
+    bindsTo = [ "qbittorrent.service" ];
 
     serviceConfig =
       let
@@ -165,25 +106,29 @@ in
               ${iptables} -I INPUT 1 -i ${vpn.interface} -j ${chain}
           fi
 
+          QBIT_PORT=${toString config.services.qbittorrent.webuiPort}
           DIR="/var/lib/proton-vpn-port-forward"
           mkdir -p "$DIR"
+          rm -f "$DIR/tcp-port" "$DIR/udp-port"
 
-          DELUGE_PASS="$(grep ${delugeUser} ${config.services.deluge.authFile} | cut -d: -f2)"
-
-          set_deluge_port() {
-              ${pkgs.deluge}/bin/deluge-console -U '${delugeUser}' -P "$DELUGE_PASS" "config -s listen_ports ($1, $1) ; exit"
+          set_listen_port() {
+              touch /var/keys/qbittorrent/cookie
+              chmod 600 /var/keys/qbittorrent/cookie
+              ${pkgs.curl}/bin/curl -s --cookie-jar /var/keys/qbittorrent/cookie --data "username=admin&password=$(cat /var/keys/qbittorrent/admin-pass)" http://127.0.0.1:$QBIT_PORT/api/v2/auth/login
+              ${pkgs.curl}/bin/curl -s -b /var/keys/qbittorrent/cookie "http://127.0.0.1:$QBIT_PORT/api/v2/app/setPreferences" --data "json={\"listen_port\": $1}"
           }
 
           renew_port() {
               protocol="$1"
               port_file="$DIR/$protocol-port"
+              touch "$port_file"
 
               result="$(${pkgs.libnatpmp}/bin/natpmpc -a 1 0 "$protocol" 60 -g ${vpn.gateway})"
               new_port="$(echo "$result" | ${pkgs.ripgrep}/bin/rg --only-matching --replace '$1' 'Mapped public port (\d+) protocol ... to local port 0 lifetime 60')"
 
               if [ -z "$new_port" ]; then
                   echo "Failed to get new $protocol port"
-                  echo "$result"
+                  echo "Error: $result"
                   exit 1
               fi
 
@@ -197,13 +142,13 @@ in
               fi
 
               if [ -z "$old_port" ]; then
-                  set_deluge_port "$new_port"
+                  set_listen_port "$new_port"
                   echo "Didn't find a previous $protocol port, will wait for next loop"
                   return
               fi
 
               if [ "$new_port" -ne "$old_port" ]; then
-                  set_deluge_port "$new_port"
+                  set_listen_port "$new_port"
                   if ${iptables} -C ${chain} -p "$protocol" --dport "$old_port" -j ACCEPT 2>/dev/null; then
                       echo "Closing old $protocol port $old_port"
                       ${iptables} -D ${chain} -p "$protocol" --dport "$old_port" -j ACCEPT
@@ -212,9 +157,9 @@ in
           }
 
           while true; do
-            renew_port udp
-            renew_port tcp
-            sleep 50
+              renew_port tcp
+              renew_port udp
+              sleep 50
           done
         '';
         ExecStopPost = "${iptables} -F ${chain}";
@@ -222,7 +167,7 @@ in
   };
 
   services.jellyfin.enable = true;
-  users.users.${config.services.jellyfin.user}.extraGroups = [ config.services.deluge.group ];
+  users.users.${config.services.jellyfin.user}.extraGroups = [ config.services.qbittorrent.group ];
 
   boot.kernelParams = [ "i915.enable_guc=3" ];
 
@@ -248,4 +193,31 @@ in
   environment.systemPackages = [
     pkgs-unstable.immich-go
   ];
+
+  services.qbittorrent = {
+    enable = true;
+    profileDir = "/pool/torrents";
+    serverConfig = {
+      LegalNotice.Accepted = true;
+      Core.AutoDeleteAddedTorrentFile = "Never";
+      Network.PortForwardingEnabled = false;
+      BitTorrent.Session = {
+        AnonymousModeEnabled = true;
+        DisableAutoTMMByDefault = false;
+        GlobalUPSpeedLimit = 2048;
+        IgnoreLimitsOnLAN = true;
+        Interface = vpn.interface;
+        MaxActiveCheckingTorrents = -1;
+        QueueingSystemEnabled = false;
+        TorrentExportDirectory = "/pool/torrents/qBittorrent/torrentfiles";
+      };
+      Preferences = {
+        General.StatusbarExternalIPDisplayed = true;
+        WebUI = {
+          Address = "127.0.0.1";
+          Password_PBKDF2 = hidden.passwords.qbittorrent;
+        };
+      };
+    };
+  };
 }

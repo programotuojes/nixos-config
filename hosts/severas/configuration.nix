@@ -51,7 +51,6 @@
   };
 
   users.users.gustas = {
-    extraGroups = [ config.services.deluge.group ];
     openssh.authorizedKeys.keys = [
       hidden.lbook_ssh_key
       hidden.mac_ssh_key
