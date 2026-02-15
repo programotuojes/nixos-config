@@ -60,6 +60,8 @@
 
   environment.systemPackages = with pkgs; [
     lm_sensors
+    htop
+    tree
   ];
 
   services.postgresql = {
