@@ -43,7 +43,11 @@ in
     exporters = {
       node = {
         enable = true;
-        enabledCollectors = [ "systemd" ];
+        disabledCollectors = [
+          "arp"
+          "schedstat"
+          "zfs"
+        ];
       };
 
       zfs = {
