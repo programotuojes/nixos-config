@@ -2,6 +2,7 @@
 
 let
   domain = "grafana.severas.lan";
+  scrape_interval = "15s";
 in
 {
   services.grafana = {
@@ -54,7 +55,7 @@ in
     scrapeConfigs = [
       {
         job_name = "severas";
-        scrape_interval = "15s";
+        scrape_interval = scrape_interval;
         static_configs = [{
           targets = [
             "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
@@ -71,7 +72,9 @@ in
     port = 9550;
     extraOptions = [
       "--store_container_labels=false"
-      "--enable_metrics=cpu,disk,diskIO,memory,network,oom_event,process"
+      "--disable_root_cgroup_stats=true"
+      "--housekeeping_interval=${scrape_interval}"
+      "--enable_metrics=cpu,diskIO,memory"
     ];
   };
 
