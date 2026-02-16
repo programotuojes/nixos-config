@@ -27,6 +27,7 @@ in
         user = "grafana";
         type = "postgres";
         host = "/run/postgresql";
+        high_availability = false;
       };
 
       analytics = {
