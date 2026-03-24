@@ -28,6 +28,7 @@
       log_type = "file";
       preview_ffmpeg_path = "${pkgs.ffmpeg-headless}/bin/ffmpeg";
       maintenance_window_start = 0;
+      trashbin_retention_obligation = "auto, 30";
     };
 
     phpOptions = {
